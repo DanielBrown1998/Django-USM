@@ -13,6 +13,7 @@ def cadastro(request):
             user.set_password(form.cleaned_data['password1'])
             user.save()
             data_user = DataUser(owner=user)
+            data_user.phone = form.cleaned_data['phone']
             data_user.save()
             matricula = Matriculas.objects.get(
                 matricula=form.cleaned_data['username']

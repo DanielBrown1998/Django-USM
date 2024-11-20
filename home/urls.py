@@ -38,26 +38,27 @@ urlpatterns = [
 
 
 #TODO: 
-# 1 - disponibilizar o delete da conta do próprio usuário.
+# ------------OK 1 - disponibilizar o delete da conta do próprio usuário.
 
 
-# # 2 - Montar view para expor ao usuário os dias que a monitoria pode ser marcada.
-# OK 5 - inserir o filtro de dados datetime.now para o search_monitorias
-# OK 6 - retirar o aside para o admin
-# OK 8 - disponibilizar para o usuário somente os dias da semana que ele possui marcação de horario na tabela monitoria;
-# OK 9 - requerer login para a view monitoria
-# OK 10 - admin não pode marcar monitoria, alterar o aside, mostrar todas as monitoria marcadas para hoje no aside  
+# ------------OK 2 - Montar view para expor ao usuário os dias que a monitoria pode ser marcada.
+# ------------OK 5 - inserir o filtro de dados datetime.now para o search_monitorias
+# ------------OK 6 - retirar o aside para o admin
+# ------------OK 8 - disponibilizar para o usuário somente os dias da semana que ele possui marcação de horario na tabela monitoria;
+# ------------OK 9 - requerer login para a view monitoria
+# ------------OK 10 - admin não pode marcar monitoria, alterar o aside, mostrar todas as monitoria marcadas para hoje no aside  
 
 
-# OK 3 - atualizar o model de DataUser: inserir o atributo monitorias_ausentes
-# 11 - add telefone ao campo de updates
+# ------------OK 3 - atualizar o model de DataUser: inserir o atributo monitorias_ausentes
+# ------------OK 11 - add telefone ao campo de updates
 # 12 - add telefone ao campo de cadastro
 
-# OK 13 - add status ao models Monitorias
-# OK 14 - add alteração de status para as monitorias do dia e antepassadas
+# ------------OK 13 - add status ao models Monitorias
+# ------------OK 14 - add alteração de status para as monitorias do dia e antepassadas
 # 15 - vincular os campos de datauser ao models monitoria
 # 16 - alterar a view update_monitorias para realizar o TODO n° 14
 # 7 - inserir regra de negócio: mais de 3 moonitorias ausentes sem aviso prévio, o usuario será suspenso do sistema
 # 17 - Refatorar o cadastro
 # 18 - Inserir o campo de recuperar senha
 # 19 - add hora ao marcar monitoria
+# ------------OK 20 - ao criar o cadastro, criar o datauser

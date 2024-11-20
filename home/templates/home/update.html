@@ -12,19 +12,12 @@
                     </p>
                     {{ field }}
                 </label>
-                <div class="field-help">
-                    <ul>
-                    {% for help in field.help_text %}
-                       <li>{{help}}
-                    {% endfor %}
-                    </ul>
-                </div>
                 <div class="field-error">
                     {{field.errors}}
                 </div>
             {% endfor %}
             <div class="flex-row-space-around item-padding">
-                <a href="{% url "home:password" %}"
+                <a href="{% url 'home:password' %}"
                 class='next-previous'>
                     alterar senha
                 </a>
@@ -45,6 +38,7 @@
     <p class="div-padding text-center italic">Aqui você atualiza o seu cadastro</p>
     <p class="div-padding text-center italic">É de extrema importância que você atualize os seus dados de imediato</p>
     <p class="div-padding text-center italic">Sua matrícula é inserida pelo monitor, os dados que podem ser alterados são somente esse ao lado</p>
+    <p class="div-padding text-center legend-cadastro border-white italic error">Para cancelar sua conta é só desmarcar o box do ativo e atualizar</p>
 </div>
 {% endblock aside %}
 

@@ -55,10 +55,13 @@ def login(request):
         
         try:
             user = User.objects.get(username= matricula)
+            if not user.is_active:
+                message(request, 'Usuário inativo', error=True)
+                return redirect('home:home')    
         except User.DoesNotExist:
             user = None
         
-        if not matriculas_cadastradas:
+        if not matriculas_cadastradas and not user.is_superuser:
             msg ='Não foi possível encontrar sua matrícula'
             message(request, msg, error=True)
             return redirect('home:home')
@@ -76,7 +79,10 @@ def login(request):
             url = 'home/cadastro.html'
             return render(request, url, context)
     
-    msg = 'usuário encontrado!'
+    if user.is_superuser:
+        msg = 'Bem vindo administrador'
+    else:
+        msg = 'usuário encontrado!'
     message(request, msg, sucesss=True)
     context = {
         'title': 'login',

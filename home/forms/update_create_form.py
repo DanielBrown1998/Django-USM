@@ -60,6 +60,20 @@ class CreateForm(UserCreationForm):
         ),
     )
 
+    phone = forms.CharField(
+        label = 'telefone',
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'form-cadastro'
+            }
+        ),
+        required = False,
+        help_text=[
+            'Seu telefone deve conter 11 caracteres',
+            'Seu telefone deve conter apenas números',
+        ]
+    )
+
     password1 = forms.CharField(
         label = 'senha',
         widget = forms.PasswordInput(
@@ -116,11 +130,13 @@ class CreateForm(UserCreationForm):
 class UpdateForm(forms.ModelForm):
 
     def __init__(
-                self, 
+                self,
+                phone: Any = None, 
                 *args: Any,
                 **kwargs: Any, 
                 ):
         super(UpdateForm, self).__init__(*args, **kwargs)
+        self.fields['phone'].initial = phone
 
 
     class Meta:
@@ -130,6 +146,7 @@ class UpdateForm(forms.ModelForm):
             'first_name', 
             'last_name', 
             'email',
+            'is_active'
             ]
         
         
@@ -152,7 +169,11 @@ class UpdateForm(forms.ModelForm):
                     'required': 'required',
 
                 }
-
+            ),
+            'is_active': forms.CheckboxInput(
+                attrs = {
+                    'class': 'form-cadastro',
+                }
             ),
         }
     
@@ -163,6 +184,20 @@ class UpdateForm(forms.ModelForm):
                 'class': 'form-cadastro'
             }
         ),
+    )
+
+    phone = forms.CharField(
+        label = 'telefone',
+        widget = forms.TextInput(
+            attrs = {
+                'class': 'form-cadastro'
+            }
+        ),
+        required = False,
+        help_text=[
+            'Seu telefone deve conter 11 caracteres',
+            'Seu telefone deve conter apenas números',
+        ]   
     )
 
     def clean_first_name(self):
