@@ -10,6 +10,8 @@ daysweek = [
     'Sexta-feira',
 ]
 
+LIM_PART_MONITORIA = 5
+
 def monitorias_marcadas_usuario(user):
     import datetime
     from datetime import timedelta, datetime
@@ -45,11 +47,17 @@ def free_days_next_monitorias():
         {'date': item.date, 'user': item.owner.username} for item in data], key=lambda date: date['date']
         ), key=lambda date: date['date'])
     
-    days_monitoria = [daysweek.index(day['dayweek']) for day in days()]
-    monitorias = [item[0] for item in monitorias 
-                  if len(list(item[1])) < 5 
-                  and item[0].weekday() in days_monitoria
-                  ]
+    daysweek_monitoria = [daysweek.index(day['dayweek']) for day in days()]
+    next_seven_days = set([
+        (datetime.now() + timedelta(days=i)).date() 
+        for i in range(1, 8) 
+        if (datetime.now() + timedelta(days=i)).weekday() in daysweek_monitoria
+        ])
+    monitorias = set([item[0] for item in monitorias 
+                  if len(list(item[1])) >= LIM_PART_MONITORIA
+                  and item[0].weekday() in daysweek_monitoria
+                  ])
+    monitorias = sorted(list(next_seven_days - monitorias))
     return monitorias
     
 def message(request, msg: str, sucesss=False, error=False):

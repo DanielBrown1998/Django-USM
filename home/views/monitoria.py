@@ -75,7 +75,17 @@ def update_monitoria(request, id):
                 return redirect('home:monitorias')
         
         status = request.POST.get('status', 'MARCADA')
+        if status == monitoria.status:
+            return redirect('home:monitorias')
         monitoria.status = status
+        if str(monitoria.status).upper().strip() == "CANCELADA":
+            monitoria.monitorias_marcadas -= 1
+        elif str(monitoria.status).upper().strip() == "AUSENTE":
+            monitoria.monitorias_ausentes += 1
+        elif str(monitoria.status).upper().strip() == "PRESENTE":
+            monitoria.monitorias_presentes += 1
+        elif str(monitoria.status).upper().strip() == "MARCADA":
+            monitoria.monitorias_marcadas += 1
         monitoria.save()
         message(request, msg='Monitoria atualizada com sucesso!', sucesss=True)
         return redirect('home:monitorias')
