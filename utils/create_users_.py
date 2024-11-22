@@ -8,7 +8,7 @@ from django.db.utils import IntegrityError
 DJANGO_BASE_DIR = Path(__file__).parent.parent
 NUMBER_OF_OBJECTS = 60
 NUMBERS_MON = 30
-WEEKDAYS = [4, 5, 6, 7]
+WEEKDAYS = [1, 3, 4, 5]
 
 sys.path.append(str(DJANGO_BASE_DIR))
 os.environ['DJANGO_SETTINGS_MODULE'] = 'project.settings'
@@ -48,9 +48,9 @@ if __name__ == '__main__':
         profile = fake.profile()
         usuario = {}
         usuario['username'] = f"{matricula}"
-        usuario['password'] = os.environ['PASSWORD']
+        usuario['password'] = os.getenv('PASSWORD')
         usuario['first_name'], usuario['last_name'] = profile['name'].split(' ', 1)
-        usuario['email'] = os.environ['EMAIL']
+        usuario['email'] = profile['mail']
 
         django_users.append(
             User(
