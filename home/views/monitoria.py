@@ -156,7 +156,7 @@ def marcar_monitoria(request):
     
     date_time = datetime.strptime(date, '%Y-%m-%d')
 
-    if date_time > today + timedelta(days=7) or date_time < today:
+    if date_time > today + timedelta(days=7) or date_time <= today:
         message(request, 'escolha entre os próximos 7 dias que possuem monitoria')
         return redirect('home:monitorias')
 
