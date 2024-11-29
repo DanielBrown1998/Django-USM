@@ -10,6 +10,8 @@ class Matriculas(models.Model):
     matricula = models.CharField(max_length=12, unique=True)
     status = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.matricula
 
 # Create your models here.
 class DataUser(models.Model):

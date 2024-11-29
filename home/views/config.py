@@ -65,21 +65,6 @@ def update_days(request):
     return redirect('home:config')
 
 @login_required(login_url="home:home") 
-def update_monitorias(request):
-
-    usuario = request.POST.get('username', '').strip()
-    monitorias_presentes = request.POST.get('monitorias_presentes', '').strip()
-    monitorias = DataUser.objects.get(owner__username=usuario)
-    if monitorias.monitorias_marcadas >= int(monitorias_presentes):
-        monitorias.monitorias_presentes = int(monitorias_presentes)
-        monitorias.save()
-        message(request, f'aluno {usuario} atualizado com sucesso', sucesss=True)
-    else:
-        message(request, f'Erro ao atualizar aluno {usuario}', error=True)
-        #envie uma mensagem de erro
-    return redirect('home:config')
-
-@login_required(login_url="home:home") 
 def search_config(request):
 
     search_value = str(request.GET.get('q', '')).strip()
@@ -97,7 +82,7 @@ def search_config(request):
         "usuario": user.owner, 
         "monitorias_presentes": user.monitorias_presentes, 
         "monitorias_marcadas": user.monitorias_marcadas} 
-        for user in data_user
+        for user in data_user if user.is_superuser == False
         ]
     hr = [
         {"time": h.time, "day": h.day.day} 
@@ -128,7 +113,7 @@ def config(request):
         "usuario": user.owner, 
         "monitorias_presentes": user.monitorias_presentes, 
         "monitorias_marcadas": user.monitorias_marcadas} 
-        for user in data_user
+        for user in data_user if user.owner.is_superuser == False
         ]
     hr = [{"time": h.time, "day": h.day.day} for h in horas]
 

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from home.models import Matriculas
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user
 from home.views import message
 
 @login_required(login_url="home:index")
@@ -11,7 +12,6 @@ def matricula(request):
         'title': 'Matriculas',
         'matriculas': matriculas,
     }
-
     url = 'home/matricula.html'
     return render(request, url, context=context)
 
@@ -21,10 +21,14 @@ def create(request):
         'title': 'Criando Matricula',
         }
     matricula = request.POST.get('matricula', '').strip()
+    user = get_user(request)
+
     if matricula:
         matricula = Matriculas(
             matricula=matricula
         )
+        if user:
+            matricula.status = True
         matricula.save()
         message(request, 'Matricula Salva com Sucesso', sucesss=True)
     return redirect('home:matricula')
@@ -57,7 +61,10 @@ def delete_matricula(request):
         matriculas = Matriculas.objects.all()
         
     if matricula:
-        print(matricula)
+        matricula = Matriculas.objects.filter(matricula=matricula)
+        matricula.delete()
+        message(request, f'Matricula {matricula} deletada com Sucesso', sucesss=True)
+        return redirect('home:matricula')
     
     if confirmation != 'no':
         if matriculas:

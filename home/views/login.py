@@ -61,7 +61,7 @@ def login(request):
         except User.DoesNotExist:
             user = None
         
-        if not matriculas_cadastradas and not user.is_superuser:
+        if not matriculas_cadastradas and not user:
             msg ='Não foi possível encontrar sua matrícula'
             message(request, msg, error=True)
             return redirect('home:home')

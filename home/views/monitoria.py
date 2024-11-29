@@ -41,6 +41,8 @@ def monitoria(request):
                     item for item in monitorias_marcadas_usuario(user)
                 }
     }
+    for item in context['monitorias_marcadas']:
+        print(item)
     url = 'home/monitorias.html'
     return render(request, url, context=context)
 
@@ -48,7 +50,7 @@ def monitoria(request):
 @login_required(login_url='home:home')
 def update_monitoria(request, id):
     user = get_user(request)
-
+    data_user = DataUser.objects.get(owner=user)
     try:
         monitor = User.objects.get(
             is_superuser = True
@@ -74,19 +76,39 @@ def update_monitoria(request, id):
                 message(request, msg='Você não pode mais cancelar essa monitoria!', error=True)
                 return redirect('home:monitorias')
         
-        status = request.POST.get('status', 'MARCADA')
-        if status == monitoria.status:
+        status = request.POST.get('status', '')
+        if not status:
+            message(request, msg='Informe o status da monitoria')
             return redirect('home:monitorias')
-        monitoria.status = status
-        if str(monitoria.status).upper().strip() == "CANCELADA":
-            monitoria.monitorias_marcadas -= 1
-        elif str(monitoria.status).upper().strip() == "AUSENTE":
-            monitoria.monitorias_ausentes += 1
-        elif str(monitoria.status).upper().strip() == "PRESENTE":
-            monitoria.monitorias_presentes += 1
-        elif str(monitoria.status).upper().strip() == "MARCADA":
-            monitoria.monitorias_marcadas += 1
+        if str(status).upper().strip() == str(monitoria.status).upper().strip():
+            message(request, msg='Status já atualizado', error=True)
+            return redirect('home:monitorias')
+    
+        status_old = monitoria.status
+        monitoria.status = str(status).upper().strip()
+    
+        if user.is_superuser:
+            if monitoria.status == "AUSENTE":
+                if status_old == "PRESENTE":
+                    data_user.monitorias_presentes -= 1
+                data_user.monitorias_ausentes += 1
+                #if data_user.monitorias_ausentes >= 3:
+                #    data_user.suspended = True
+            elif monitoria.status == "PRESENTE":
+                if status_old == "AUSENTE":
+                    data_user.monitorias_ausentes -= 1
+                data_user.monitorias_presentes += 1
+        else:
+            if monitoria.status == "CANCELADA":
+                if status_old == "MARCADA":
+                    data_user.monitorias_marcadas -= 1
+                data_user.monitorias_canceladas += 1
+            elif monitoria.status == "MARCADA":
+                if status_old == "CANCELADA":
+                    data_user.monitorias_canceladas -= 1
+                data_user.monitorias_marcadas += 1
         monitoria.save()
+        data_user.save()
         message(request, msg='Monitoria atualizada com sucesso!', sucesss=True)
         return redirect('home:monitorias')
 
@@ -134,8 +156,8 @@ def marcar_monitoria(request):
     
     date_time = datetime.strptime(date, '%Y-%m-%d')
 
-    if date_time > today + timedelta(days=10) or date_time < today:
-        message(request, 'escolha entre os próximos 10 dias que possuem monitoria')
+    if date_time > today + timedelta(days=7) or date_time < today:
+        message(request, 'escolha entre os próximos 7 dias que possuem monitoria')
         return redirect('home:monitorias')
 
     weekday = datetime.weekday(date_time)
