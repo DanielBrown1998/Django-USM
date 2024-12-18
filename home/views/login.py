@@ -4,7 +4,7 @@ from home.forms.login import Login
 from home.forms.update_create_form import CreateForm
 from django.contrib.auth.models import User
 from django.db.models import Q
-from home.models import Matriculas
+from home.models import DataUser, Matriculas
 from home.views import days, message
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth 
@@ -81,6 +81,15 @@ def login(request):
     
     if user.is_superuser:
         msg = 'Bem vindo administrador'
+        try:
+            data_super_user = DataUser.objects.get(
+                owner = user
+            )
+        except DataUser.DoesNotExist:    
+            form_data_user = DataUser(
+                owner=user
+            )
+            form_data_user.save()
     else:
         msg = 'usuário encontrado!'
     message(request, msg, sucesss=True)
