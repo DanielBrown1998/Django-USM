@@ -53,14 +53,17 @@ def update_monitoria(request, id):
     data_user = DataUser.objects.get(owner=user)
     try:
         monitor = User.objects.get(
-            is_superuser = True
+            Q(is_superuser = True)
         )
         monitoria = Monitorias.objects.get(
             id=id
         )
-    except monitoria.DoesNotExists:
+    except User.DoesNotExist:
         message('Ocorreu um erro!', error=True)
         return redirect("home:monitorias")
+    except Monitorias.DoesNotExist:
+        message(request, msg='Você não tem permissão para acessar essa página', error=True)
+        return redirect('home:monitorias')
 
     if request.POST:
 
