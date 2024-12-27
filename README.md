@@ -66,8 +66,9 @@ SEM O SUPERUSUÁRIO o programa irá crachar
     python manage.py migrate
     python manage.py runserver
 
-9-digite seu username e faça o login
-10- vá em update e termine o cadastro do superusuário
+9- digite seu username e faça o login.
+
+10- vá em update e termine o cadastro do superusuário.
 
 # Tecnologias e técnicas utilizadas.
 
