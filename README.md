@@ -38,6 +38,37 @@
 - Funcionalidade 6;
 ![Monitoria e mais 1 página - Escola — Microsoft​ Edge 26_12_2024 11_47_49](https://github.com/user-attachments/assets/7da69601-7ffe-4b64-b206-ccf245f49548)
 
+# Instalação e Uso
+1- Baixe o arquivo no github ou clone este repositório
+
+    git clone 'https://github.com/DanielBrown1998/Django-USM'
+
+2- Crie um arquivo local_settings.py, ponha o arquivo abaixo e salve.
+    
+    DEBUG = 1
+    ALLOWED_HOSTS = []
+    SECRET_KEYS = ''
+
+3- abra o terminal na pasta raiz
+4- digite o comando: 
+    
+    pip install -r requirements.txt
+
+5- crie o super-usuário digite o camando: 
+
+    django-admin create superuser
+
+6- IMPORTANTE!!! ao pedir o username: digite um número aleátorio de 11 números
+SEM O SUPERUSUÁRIO o programa irá crachar
+
+7- em seguida, digite os comandos:
+    
+    python manage.py migrate
+    python manage.py runserver
+
+9-digite seu username e faça o login
+10- vá em update e termine o cadastro do superusuário
+
 # Tecnologias e técnicas utilizadas.
 
 - Python3;
