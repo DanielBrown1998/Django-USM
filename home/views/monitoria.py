@@ -192,7 +192,7 @@ def marcar_monitoria(request):
     except Monitorias.DoesNotExist:
         limit_monitoria = []
 
-    if len(limit_monitoria) == 5:
+    if len(limit_monitoria) == 10:
         message(request, 'Esse dia já atingiu o máximo de monitorias possíveis')
         return redirect('home:monitorias')
 
