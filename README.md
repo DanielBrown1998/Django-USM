@@ -81,7 +81,6 @@ SEM O SUPERUSUÁRIO o programa irá crachar
 # Autor
 
 - Daniel Brown R. M. dos Passos -> https://github.com/DanielBrown1998
-    
-  
+- 📛 <p align="center"><img src="https://www.codewars.com/users/daniel4661/badges/small"/></p>
 
 
